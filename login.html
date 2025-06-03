@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - FlexFrame Example</title>
+    <link rel="stylesheet" href="framework.css">
+    <style>
+        .login-bg {
+            background: linear-gradient(135deg, var(--color-primary-600), var(--color-primary-800));
+        }
+        
+        .floating-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .social-btn {
+            transition: all 200ms ease;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+    </style>
+</head>
+<body class="login-bg min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-md">
+        <div class="floating-card card shadow-xl border-0">
+            <div class="card-header text-center">
+                <h1 class="text-3xl font-bold text-primary-600 mb-2">Welcome Back</h1>
+                <p class="card-subtitle">Sign in to your account to continue</p>
+            </div>
+            
+            <div class="card-body">
+                <form id="login-form">
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email Address</label>
+                        <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="flex items-center justify-between">
+                            <label class="flex items-center gap-2">
+                                <input type="checkbox" class="form-checkbox">
+                                <span class="text-sm text-neutral-600">Remember me</span>
+                            </label>
+                            <a href="#" class="text-sm text-primary-600 hover:text-primary-700">Forgot password?</a>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg w-full mb-4">
+                        Sign In
+                    </button>
+                </form>
+                
+                <div class="text-center mb-4">
+                    <span class="text-sm text-neutral-500">or continue with</span>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <button class="social-btn btn btn-outline btn-md">
+                        🔍 Google
+                    </button>
+                    <button class="social-btn btn btn-outline btn-md">
+                        📘 Facebook
+                    </button>
+                </div>
+                
+                <div class="text-center">
+                    <span class="text-sm text-neutral-600">Don't have an account? </span>
+                    <a href="#" class="text-sm text-primary-600 hover:text-primary-700 font-medium">Sign up</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-6">
+            <p class="text-sm text-white opacity-75">
+                © 2024 FlexFrame. Built with modern CSS framework.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (email && password) {
+                // Simulate login process
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                
+                submitBtn.textContent = 'Signing in...';
+                submitBtn.disabled = true;
+                
+                setTimeout(() => {
+                    // Simulate successful login
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+            }
+        });
+        
+        // Social login buttons
+        document.querySelectorAll('.social-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const provider = this.textContent.trim().split(' ')[1];
+                alert(`${provider} login would be implemented here`);
+            });
+        });
+    </script>
+</body>
+</html>

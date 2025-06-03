@@ -1,0 +1,42 @@
+// WebKit (Chrome, Safari, Edge) specific utilities
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .webkit\:bg-blue-100 {
+    background-color: var(--color-primary-100);
+  }
+  
+  .webkit\:text-red-600 {
+    color: var(--color-error);
+  }
+  
+  // WebKit scrollbar styling
+  .webkit\:scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .webkit\:scrollbar-thin::-webkit-scrollbar-track {
+    background: var(--color-neutral-100);
+    border-radius: var(--radius-full);
+  }
+  
+  .webkit\:scrollbar-thin::-webkit-scrollbar-thumb {
+    background: var(--color-neutral-400);
+    border-radius: var(--radius-full);
+  }
+  
+  .webkit\:scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: var(--color-neutral-500);
+  }
+  
+  .webkit\:scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// Safari-specific styles
+@supports (-webkit-appearance: none) and (not (contain: paint)) {
+  .safari\:bg-green-100 {
+    background-color: var(--color-success);
+  }
+}

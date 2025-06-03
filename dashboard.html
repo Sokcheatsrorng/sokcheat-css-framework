@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - FlexFrame Example</title>
+    <link rel="stylesheet" href="framework.css">
+    <style>
+        /* Custom styles for this specific dashboard */
+        .stat-card {
+            background: linear-gradient(135deg, var(--color-primary-500), var(--color-primary-600));
+            color: white;
+        }
+        
+        .chart-placeholder {
+            background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-neutral-500);
+            font-weight: 500;
+        }
+        
+        .sidebar-nav a {
+            transition: all 150ms ease;
+        }
+        
+        .sidebar-nav a:hover {
+            background-color: var(--color-primary-50);
+            color: var(--color-primary-700);
+            transform: translateX(4px);
+        }
+        
+        .sidebar-nav a.active {
+            background-color: var(--color-primary-100);
+            color: var(--color-primary-700);
+            border-right: 3px solid var(--color-primary-500);
+        }
+        
+        .notification-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--color-error);
+            border-radius: 50%;
+            position: absolute;
+            top: -2px;
+            right: -2px;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 300ms ease;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-neutral-50">
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-btn" class="md:hidden fixed top-4 left-4 z-50 btn btn-primary btn-sm">
+        <span class="sr-only">Open menu</span>
+        ☰
+    </button>
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar fixed md:static w-64 bg-white shadow-lg border-r border-neutral-200 z-40">
+            <div class="p-6 border-b border-neutral-200">
+                <h1 class="text-xl font-bold text-primary-600">Analytics Pro</h1>
+                <p class="text-sm text-neutral-500 mt-1">Dashboard v2.1</p>
+            </div>
+            
+            <nav class="sidebar-nav p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" class="active flex items-center gap-3 p-3 rounded-lg text-sm font-medium">
+                            📊 Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-sm font-medium text-neutral-600">
+                            📈 Analytics
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-sm font-medium text-neutral-600">
+                            👥 Users
+                            <span class="ml-auto bg-primary-100 text-primary-700 px-2 py-1 rounded-full text-xs">124</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-sm font-medium text-neutral-600">
+                            💰 Revenue
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-sm font-medium text-neutral-600 relative">
+                            🔔 Notifications
+                            <div class="notification-dot"></div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center gap-3 p-3 rounded-lg text-sm font-medium text-neutral-600">
+                            ⚙️ Settings
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-neutral-200">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-primary-500 rounded-full flex items-center justify-center text-white font-semibold">
+                        JD
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-neutral-900">John Doe</p>
+                        <p class="text-xs text-neutral-500">Admin</p>
+                    </div>
+                    <button class="text-neutral-400 hover:text-neutral-600">
+                        ⋯
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 md:ml-0">
+            <!-- Header -->
+            <header class="bg-white shadow-sm border-b border-neutral-200 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="ml-12 md:ml-0">
+                        <h2 class="text-2xl font-bold text-neutral-900">Dashboard Overview</h2>
+                        <p class="text-sm text-neutral-500 mt-1">Welcome back! Here's what's happening with your business today.</p>
+                    </div>
+                    
+                    <div class="flex items-center gap-4">
+                        <!-- Search -->
+                        <div class="hidden sm:block relative">
+                            <input type="search" placeholder="Search..." class="form-input pl-10 pr-4 py-2 w-64">
+                            <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400">
+                                🔍
+                            </div>
+                        </div>
+                        
+                        <!-- Notifications -->
+                        <button class="relative p-2 text-neutral-400 hover:text-neutral-600 transition">
+                            🔔
+                            <div class="notification-dot"></div>
+                        </button>
+                        
+                        <!-- Profile -->
+                        <div class="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                            JD
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="p-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm opacity-90">Total Revenue</p>
+                                    <p class="text-2xl font-bold mt-1">$54,239</p>
+                                    <p class="text-xs opacity-75 mt-1">+12.5% from last month</p>
+                                </div>
+                                <div class="text-3xl opacity-80">💰</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-neutral-600">Active Users</p>
+                                    <p class="text-2xl font-bold text-neutral-900 mt-1">2,847</p>
+                                    <p class="text-xs text-success mt-1">+8.2% from last week</p>
+                                </div>
+                                <div class="text-3xl">👥</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-neutral-600">Orders</p>
+                                    <p class="text-2xl font-bold text-neutral-900 mt-1">1,423</p>
+                                    <p class="text-xs text-error mt-1">-2.1% from yesterday</p>
+                                </div>
+                                <div class="text-3xl">📦</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-neutral-600">Conversion Rate</p>
+                                    <p class="text-2xl font-bold text-neutral-900 mt-1">3.24%</p>
+                                    <p class="text-xs text-success mt-1">+0.5% from last month</p>
+                                </div>
+                                <div class="text-3xl">📈</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Revenue Overview</h3>
+                            <p class="card-subtitle">Monthly revenue for the past 6 months</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-placeholder">
+                                📊 Revenue Chart Placeholder
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">User Activity</h3>
+                            <p class="card-subtitle">Daily active users this week</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-placeholder">
+                                📈 Activity Chart Placeholder
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity & Quick Actions -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Recent Orders -->
+                    <div class="lg:col-span-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h3 class="card-title">Recent Orders</h3>
+                                        <p class="card-subtitle">Latest customer orders</p>
+                                    </div>
+                                    <button class="btn btn-outline btn-sm">View All</button>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="overflow-x-auto">
+                                    <table class="w-full">
+                                        <thead class="bg-neutral-50 border-b border-neutral-200">
+                                            <tr>
+                                                <th class="text-left p-4 text-sm font-medium text-neutral-600">Order ID</th>
+                                                <th class="text-left p-4 text-sm font-medium text-neutral-600">Customer</th>
+                                                <th class="text-left p-4 text-sm font-medium text-neutral-600">Amount</th>
+                                                <th class="text-left p-4 text-sm font-medium text-neutral-600">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="divide-y divide-neutral-200">
+                                            <tr class="hover:bg-neutral-50">
+                                                <td class="p-4 text-sm font-medium text-neutral-900">#12847</td>
+                                                <td class="p-4 text-sm text-neutral-600">Sarah Johnson</td>
+                                                <td class="p-4 text-sm text-neutral-900">$129.99</td>
+                                                <td class="p-4">
+                                                    <span class="bg-success text-white px-2 py-1 rounded-full text-xs">Completed</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="hover:bg-neutral-50">
+                                                <td class="p-4 text-sm font-medium text-neutral-900">#12846</td>
+                                                <td class="p-4 text-sm text-neutral-600">Mike Chen</td>
+                                                <td class="p-4 text-sm text-neutral-900">$89.50</td>
+                                                <td class="p-4">
+                                                    <span class="bg-warning text-white px-2 py-1 rounded-full text-xs">Processing</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="hover:bg-neutral-50">
+                                                <td class="p-4 text-sm font-medium text-neutral-900">#12845</td>
+                                                <td class="p-4 text-sm text-neutral-600">Emma Davis</td>
+                                                <td class="p-4 text-sm text-neutral-900">$249.99</td>
+                                                <td class="p-4">
+                                                    <span class="bg-primary-500 text-white px-2 py-1 rounded-full text-xs">Shipped</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="hover:bg-neutral-50">
+                                                <td class="p-4 text-sm font-medium text-neutral-900">#12844</td>
+                                                <td class="p-4 text-sm text-neutral-600">Alex Rodriguez</td>
+                                                <td class="p-4 text-sm text-neutral-900">$67.25</td>
+                                                <td class="p-4">
+                                                    <span class="bg-error text-white px-2 py-1 rounded-full text-xs">Cancelled</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="space-y-6">
+                        <!-- Quick Actions Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Quick Actions</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="space-y-3">
+                                    <button class="btn btn-primary btn-sm w-full justify-start">
+                                        ➕ Add New Product
+                                    </button>
+                                    <button class="btn btn-secondary btn-sm w-full justify-start">
+                                        📊 Generate Report
+                                    </button>
+                                    <button class="btn btn-outline btn-sm w-full justify-start">
+                                        👥 Invite Team Member
+                                    </button>
+                                    <button class="btn btn-ghost btn-sm w-full justify-start">
+                                        ⚙️ Settings
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notifications Card -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Recent Notifications</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-2 h-2 bg-primary-500 rounded-full mt-2 flex-shrink-0"></div>
+                                        <div>
+                                            <p class="text-sm text-neutral-900">New order received</p>
+                                            <p class="text-xs text-neutral-500">2 minutes ago</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-2 h-2 bg-success rounded-full mt-2 flex-shrink-0"></div>
+                                        <div>
+                                            <p class="text-sm text-neutral-900">Payment processed</p>
+                                            <p class="text-xs text-neutral-500">15 minutes ago</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-2 h-2 bg-warning rounded-full mt-2 flex-shrink-0"></div>
+                                        <div>
+                                            <p class="text-sm text-neutral-900">Low stock alert</p>
+                                            <p class="text-xs text-neutral-500">1 hour ago</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-2 h-2 bg-neutral-300 rounded-full mt-2 flex-shrink-0"></div>
+                                        <div>
+                                            <p class="text-sm text-neutral-900">User registered</p>
+                                            <p class="text-xs text-neutral-500">3 hours ago</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-ghost btn-sm w-full">View All Notifications</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Overlay -->
+    <div id="mobile-overlay" class="fixed inset-0 bg-neutral-900 bg-opacity-50 z-30 hidden md:hidden"></div>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+
+        function toggleMobileMenu() {
+            sidebar.classList.toggle('open');
+            mobileOverlay.classList.toggle('hidden');
+            document.body.classList.toggle('overflow-hidden');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+        mobileOverlay.addEventListener('click', toggleMobileMenu);
+
+        // Close mobile menu when clicking on nav links
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth < 768) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768) {
+                sidebar.classList.remove('open');
+                mobileOverlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            }
+        });
+
+        // Simulate real-time updates
+        function updateStats() {
+            const revenue = document.querySelector('.stat-card .text-2xl');
+            const users = document.querySelectorAll('.card .text-2xl')[1];
+            
+            // Simulate small changes in numbers
+            if (revenue && Math.random() > 0.7) {
+                const currentValue = parseInt(revenue.textContent.replace(/[$,]/g, ''));
+                const change = Math.floor(Math.random() * 100) - 50;
+                const newValue = Math.max(0, currentValue + change);
+                revenue.textContent = `$${newValue.toLocaleString()}`;
+            }
+            
+            if (users && Math.random() > 0.8) {
+                const currentValue = parseInt(users.textContent.replace(/,/g, ''));
+                const change = Math.floor(Math.random() * 10) - 5;
+                const newValue = Math.max(0, currentValue + change);
+                users.textContent = newValue.toLocaleString();
+            }
+        }
+
+        // Update stats every 10 seconds
+        setInterval(updateStats, 10000);
+
+        // Add click handlers for interactive elements
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (!this.getAttribute('href') && !this.type) {
+                    e.preventDefault();
+                    
+                    // Visual feedback
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                    
+                    // Show action feedback
+                    const actions = {
+                        'Add New Product': 'Product form would open here',
+                        'Generate Report': 'Report generation started',
+                        'Invite Team Member': 'Invitation modal would appear',
+                        'View All': 'Full list view would load',
+                        'View All Notifications': 'Notifications page would open'
+                    };
+                    
+                    const action = actions[this.textContent.trim()];
+                    if (action) {
+                        // Simple toast notification
+                        const toast = document.createElement('div');
+                        toast.className = 'fixed top-4 right-4 bg-primary-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 transition-all duration-300';
+                        toast.textContent = action;
+                        document.body.appendChild(toast);
+                        
+                        setTimeout(() => {
+                            toast.style.opacity = '0';
+                            toast.style.transform = 'translateY(-20px)';
+                            setTimeout(() => toast.remove(), 300);
+                        }, 2000);
+                    }
+                }
+            });
+        });
+
+        // Table row hover effects
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('click', function() {
+                const orderId = this.querySelector('td').textContent;
+                
+                // Simple feedback
+                const toast = document.createElement('div');
+                toast.className = 'fixed top-4 right-4 bg-neutral-800 text-white px-4 py-2 rounded-lg shadow-lg z-50';
+                toast.textContent = `Order ${orderId} details would open`;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

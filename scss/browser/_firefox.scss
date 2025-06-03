@@ -1,0 +1,32 @@
+// Firefox-specific utilities
+
+@-moz-document url-prefix() {
+  .firefox\:bg-red-100 {
+    background-color: var(--color-error);
+  }
+  
+  .firefox\:text-blue-600 {
+    color: var(--color-primary-600);
+  }
+  
+  .firefox\:border-green-500 {
+    border-color: var(--color-success);
+  }
+  
+  // Firefox scrollbar styling
+  .firefox\:scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  
+  .firefox\:scrollbar-none {
+    scrollbar-width: none;
+  }
+}
+
+// Firefox focus styles
+@-moz-document url-prefix() {
+  .firefox\:focus\:ring-2:focus {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+}

@@ -1,0 +1,52 @@
+// Modern CSS Features - Container Queries
+
+@container (min-width: 320px) {
+  .container-sm\:text-lg {
+    font-size: var(--font-size-lg);
+  }
+  
+  .container-sm\:p-4 {
+    padding: var(--space-4);
+  }
+}
+
+@container (min-width: 480px) {
+  .container-md\:text-xl {
+    font-size: var(--font-size-xl);
+  }
+  
+  .container-md\:p-6 {
+    padding: var(--space-6);
+  }
+  
+  .container-md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container (min-width: 640px) {
+  .container-lg\:text-2xl {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .container-lg\:p-8 {
+    padding: var(--space-8);
+  }
+  
+  .container-lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+// Container Query Size
+.container-query {
+  container-type: inline-size;
+}
+
+.container-query-normal {
+  container-type: normal;
+}
+
+.container-query-size {
+  container-type: size;
+}

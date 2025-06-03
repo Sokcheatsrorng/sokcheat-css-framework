@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog - FlexFrame Example</title>
+    <link rel="stylesheet" href="framework.css">
+    <style>
+        .product-image {
+            background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-neutral-500);
+            font-size: 3rem;
+        }
+        
+        .filter-sidebar {
+            max-height: calc(100vh - 2rem);
+            overflow-y: auto;
+        }
+        
+        .product-card {
+            transition: all 200ms ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .price-badge {
+            background: linear-gradient(135deg, var(--color-success), #059669);
+            color: white;
+        }
+        
+        .sale-badge {
+            background: linear-gradient(135deg, var(--color-error), #dc2626);
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-neutral-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-neutral-200 sticky top-0 z-40">
+        <div class="container">
+            <div class="flex items-center justify-between py-4">
+                <div class="flex items-center gap-8">
+                    <h1 class="text-2xl font-bold text-primary-600">ShopFrame</h1>
+                    <nav class="hidden md:flex items-center gap-6">
+                        <a href="#" class="text-neutral-600 hover:text-primary-600 transition">Home</a>
+                        <a href="#" class="text-primary-600 font-medium">Products</a>
+                        <a href="#" class="text-neutral-600 hover:text-primary-600 transition">About</a>
+                        <a href="#" class="text-neutral-600 hover:text-primary-600 transition">Contact</a>
+                    </nav>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div class="hidden sm:block relative">
+                        <input type="search" placeholder="Search products..." class="form-input pl-10 pr-4 py-2 w-64">
+                        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400">
+                            🔍
+                        </div>
+                    </div>
+                    
+                    <button class="relative p-2 text-neutral-600 hover:text-primary-600 transition">
+                        🛒
+                        <span class="absolute -top-1 -right-1 bg-primary-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </button>
+                    
+                    <button class="btn btn-primary btn-sm">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Filters Sidebar -->
+            <aside class="lg:w-64 flex-shrink-0">
+                <div class="card filter-sidebar sticky top-24">
+                    <div class="card-header">
+                        <h3 class="card-title">Filters</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Category Filter -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-neutral-900 mb-3">Category</h4>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="form-checkbox" checked>
+                                    <span class="text-sm">Electronics</span>
+                                    <span class="text-xs text-neutral-500 ml-auto">(24)</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="form-checkbox">
+                                    <span class="text-sm">Clothing</span>
+                                    <span class="text-xs text-neutral-500 ml-auto">(18)</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="form-checkbox">
+                                    <span class="text-sm">Home & Garden</span>
+                                    <span class="text-xs text-neutral-500 ml-auto">(12)</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="form-checkbox">
+                                    <span class="text-sm">Sports</span>
+                                    <span class="text-xs text-neutral-500 ml-auto">(8)</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Price Range -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-neutral-900 mb-3">Price Range</h4>
+                            <div class="space-y-3">
+                                <div class="flex gap-2">
+                                    <input type="number" placeholder="Min" class="form-input text-sm">
+                                    <input type="number" placeholder="Max" class="form-input text-sm">
+                                </div>
+                                <button class="btn btn-outline btn-sm w-full">Apply</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Brand Filter -->
+                        <div class="mb-6">
+                            <h4 class="font-semibold text-neutral-900 mb-3">Brand</h4>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="form-checkbox">
+                                    <span class="text-sm">Apple</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="form-checkbox">
+                                    <span class="text-sm">Samsung</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="form-checkbox">
+                                    <span class="text-sm">Nike</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="form-checkbox">
+                                    <span class="text-sm">Adidas</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Rating Filter -->
+                        <div>
+                            <h4 class="font-semibold text-neutral-900 mb-3">Rating</h4>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="form-checkbox">
+                                    <span class="text-sm">⭐⭐⭐⭐⭐ & up</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="form-checkbox">
+                                    <span class="text-sm">⭐⭐⭐⭐ & up</span>
+                                </label>
+                                <label class="flex items-center gap-2">
+                                    <input type="checkbox" class="form-checkbox">
+                                    <span class="text-sm">⭐⭐⭐ & up</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-ghost btn-sm w-full">Clear All Filters</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1">
+                <!-- Toolbar -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-neutral-900">Electronics</h2>
+                        <p class="text-sm text-neutral-600 mt-1">Showing 24 of 156 products</p>
+                    </div>
+                    
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-neutral-600">Sort by:</span>
+                            <select class="form-select text-sm">
+                                <option>Featured</option>
+                                <option>Price: Low to High</option>
+                                <option>Price: High to Low</option>
+                                <option>Newest</option>
+                                <option>Best Rating</option>
+                            </select>
+                        </div>
+                        
+                        <div class="flex border border-neutral-300 rounded-md">
+                            <button class="p-2 text-neutral-600 hover:bg-neutral-100 border-r border-neutral-300">
+                                ⊞
+                            </button>
+                            <button class="p-2 text-primary-600 bg-primary-50">
+                                ☰
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Product 1 -->
+                    <div class="product-card card">
+                        <div class="relative">
+                            <div class="product-image rounded-t-lg">
+                                📱
+                            </div>
+                            <div class="absolute top-3 left-3">
+                                <span class="sale-badge px-2 py-1 rounded-full text-xs font-medium">Sale</span>
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <button class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-neutral-50 transition">
+                                    ♡
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="font-semibold text-neutral-900 mb-1">iPhone 15 Pro</h3>
+                            <p class="text-sm text-neutral-600 mb-2">Latest Apple smartphone with advanced features</p>
+                            <div class="flex items-center gap-1 mb-3">
+                                <span class="text-sm">⭐⭐⭐⭐⭐</span>
+                                <span class="text-xs text-neutral-500">(128 reviews)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-lg font-bold text-neutral-900">$999</span>
+                                    <span class="text-sm text-neutral-500 line-through ml-2">$1,199</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card card">
+                        <div class="relative">
+                            <div class="product-image rounded-t-lg">
+                                💻
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <button class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-neutral-50 transition">
+                                    ♡
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="font-semibold text-neutral-900 mb-1">MacBook Air M2</h3>
+                            <p class="text-sm text-neutral-600 mb-2">Powerful laptop for professionals and students</p>
+                            <div class="flex items-center gap-1 mb-3">
+                                <span class="text-sm">⭐⭐⭐⭐⭐</span>
+                                <span class="text-xs text-neutral-500">(89 reviews)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-lg font-bold text-neutral-900">$1,299</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card card">
+                        <div class="relative">
+                            <div class="product-image rounded-t-lg">
+                                🎧
+                            </div>
+                            <div class="absolute top-3 left-3">
+                                <span class="price-badge px-2 py-1 rounded-full text-xs font-medium">Best Seller</span>
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <button class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-neutral-50 transition text-error">
+                                    ♥
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="font-semibold text-neutral-900 mb-1">AirPods Pro</h3>
+                            <p class="text-sm text-neutral-600 mb-2">Wireless earbuds with noise cancellation</p>
+                            <div class="flex items-center gap-1 mb-3">
+                                <span class="text-sm">⭐⭐⭐⭐⭐</span>
+                                <span class="text-xs text-neutral-500">(256 reviews)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-lg font-bold text-neutral-900">$249</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card card">
+                        <div class="relative">
+                            <div class="product-image rounded-t-lg">
+                                ⌚
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <button class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-neutral-50 transition">
+                                    ♡
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="font-semibold text-neutral-900 mb-1">Apple Watch Series 9</h3>
+                            <p class="text-sm text-neutral-600 mb-2">Advanced smartwatch with health monitoring</p>
+                            <div class="flex items-center gap-1 mb-3">
+                                <span class="text-sm">⭐⭐⭐⭐⭐</span>
+                                <span class="text-xs text-neutral-500">(94 reviews)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-lg font-bold text-neutral-900">$399</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 -->
+                    <div class="product-card card">
+                        <div class="relative">
+                            <div class="product-image rounded-t-lg">
+                                📷
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <button class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-neutral-50 transition">
+                                    ♡
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="font-semibold text-neutral-900 mb-1">Canon EOS R5</h3>
+                            <p class="text-sm text-neutral-600 mb-2">Professional mirrorless camera</p>
+                            <div class="flex items-center gap-1 mb-3">
+                                <span class="text-sm">⭐⭐⭐⭐⭐</span>
+                                <span class="text-xs text-neutral-500">(67 reviews)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-lg font-bold text-neutral-900">$3,899</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 6 -->
+                    <div class="product-card card">
+                        <div class="relative">
+                            <div class="product-image rounded-t-lg">
+                                🖥️
+                            </div>
+                            <div class="absolute top-3 left-3">
+                                <span class="sale-badge px-2 py-1 rounded-full text-xs font-medium">20% Off</span>
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <button class="w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md hover:bg-neutral-50 transition">
+                                    ♡
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="font-semibold text-neutral-900 mb-1">Studio Display</h3>
+                            <p class="text-sm text-neutral-600 mb-2">27-inch 5K Retina display</p>
+                            <div class="flex items-center gap-1 mb-3">
+                                <span class="text-sm">⭐⭐⭐⭐⭐</span>
+                                <span class="text-xs text-neutral-500">(45 reviews)</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-lg font-bold text-neutral-900">$1,279</span>
+                                    <span class="text-sm text-neutral-500 line-through ml-2">$1,599</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex items-center justify-center mt-12">
+                    <nav class="flex items-center gap-2">
+                        <button class="btn btn-outline btn-sm" disabled>Previous</button>
+                        <button class="btn btn-primary btn-sm">1</button>
+                        <button class="btn btn-outline btn-sm">2</button>
+                        <button class="btn btn-outline btn-sm">3</button>
+                        <span class="px-3 text-neutral-500">...</span>
+                        <button class="btn btn-outline btn-sm">12</button>
+                        <button class="btn btn-outline btn-sm">Next</button>
+                    </nav>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-neutral-900 text-neutral-300 py-12 mt-16">
+        <div class="container">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">ShopFrame</h3>
+                    <p class="text-sm leading-relaxed">
+                        Your one-stop shop for electronics, built with FlexFrame CSS framework.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Shop</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Electronics</a></li>
+                        <li><a href="#" class="hover:text-white transition">Clothing</a></li>
+                        <li><a href="#" class="hover:text-white transition">Home & Garden</a></li>
+                        <li><a href="#" class="hover:text-white transition">Sports</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Support</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition">Shipping Info</a></li>
+                        <li><a href="#" class="hover:text-white transition">Returns</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-4">Newsletter</h4>
+                    <p class="text-sm mb-3">Get updates on new products and offers</p>
+                    <div class="flex gap-2">
+                        <input type="email" placeholder="Your email" class="form-input text-sm flex-1">
+                        <button class="btn btn-primary btn-sm">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-neutral-800 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2024 ShopFrame. Built with FlexFrame CSS Framework.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add to cart functionality
+        document.querySelectorAll('.btn:contains("Add to Cart")').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('h3').textContent;
+                
+                // Visual feedback
+                this.textContent = 'Added!';
+                this.classList.remove('btn-primary');
+                this.classList.add('btn-success');
+                
+                setTimeout(() => {
+                    this.textContent = 'Add to Cart';
+                    this.classList.remove('btn-success');
+                    this.classList.add('btn-primary');
+                }, 2000);
+                
+                // Update cart count
+                const cartBadge = document.querySelector('.relative span');
+                const currentCount = parseInt(cartBadge.textContent);
+                cartBadge.textContent = currentCount + 1;
+                
+                // Simple toast notification
+                const toast = document.createElement('div');
+                toast.className = 'fixed top-4 right-4 bg-success text-white px-4 py-2 rounded-lg shadow-lg z-50';
+                toast.textContent = `${productName} added to cart!`;
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            });
+        });
+        
+        // Wishlist functionality
+        document.querySelectorAll('.w-8.h-8').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.textContent === '♡') {
+                    this.textContent = '♥';
+                    this.classList.add('text-error');
+                } else if (this.textContent === '♥') {
+                    this.textContent = '♡';
+                    this.classList.remove('text-error');
+                }
+            });
+        });
+        
+        // Filter functionality
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                // Simulate filtering
+                console.log('Filter applied:', this.nextElementSibling.textContent);
+            });
+        });
+        
+        // Sort functionality
+        document.querySelector('select').addEventListener('change', function() {
+            console.log('Sort by:', this.value);
+            // Simulate sorting
+        });
+    </script>
+</body>
+</html>

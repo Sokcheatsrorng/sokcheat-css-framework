@@ -1,0 +1,80 @@
+// Main Framework Entry Point
+
+// Import order is important for cascade
+@import 'scss/tokens/variables';
+@import 'scss/tokens/maps';
+
+@import 'scss/base/reset';
+
+@import 'scss/utilities/colors';
+@import 'scss/utilities/spacing';
+@import 'scss/utilities/typography';
+@import 'scss/utilities/layout';
+@import 'scss/utilities/borders';
+@import 'scss/utilities/effects';
+
+@import 'scss/layout/grid';
+
+@import 'scss/components/buttons';
+@import 'scss/components/cards';
+@import 'scss/components/forms';
+
+@import 'scss/responsive/breakpoints';
+
+@import 'scss/modern/container-queries';
+@import 'scss/modern/cascade-layers';
+
+@import 'scss/browser/firefox';
+@import 'scss/browser/webkit';
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-neutral-50: #111827;
+    --color-neutral-100: #1f2937;
+    --color-neutral-200: #374151;
+    --color-neutral-300: #4b5563;
+    --color-neutral-400: #6b7280;
+    --color-neutral-500: #9ca3af;
+    --color-neutral-600: #d1d5db;
+    --color-neutral-700: #e5e7eb;
+    --color-neutral-800: #f3f4f6;
+    --color-neutral-900: #f9fafb;
+  }
+  
+  .card {
+    background-color: var(--color-neutral-100);
+    border-color: var(--color-neutral-300);
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    background-color: var(--color-neutral-100);
+    border-color: var(--color-neutral-300);
+    color: var(--color-neutral-900);
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid currentColor;
+  }
+  
+  .card {
+    border: 2px solid var(--color-neutral-900);
+  }
+}
